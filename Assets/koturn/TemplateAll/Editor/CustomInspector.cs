@@ -302,7 +302,7 @@ namespace lilToon
         /// Menu validation method for <see cref="RefreshShaderCacheMenu"/>.
         /// </summary>
         /// <returns>True if <see cref="RefreshShaderCacheMenu"/> works, otherwise false.</returns>
-        [MenuItem("Assets/" + ShaderName + "Refresh shader cache", true)]
+        [MenuItem("Assets/" + ShaderName + "/Refresh shader cache", true)]
         private static bool ValidateRefreshShaderCacheMenu()
         {
             try
