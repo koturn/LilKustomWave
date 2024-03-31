@@ -34,16 +34,15 @@ namespace lilToon
         /// </summary>
         private static void UpdateVersionDefFile()
         {
-            var guidShaderDir = TemplateAllInspector.GuidShaderDir;
-            var dstDirPath = AssetDatabase.GUIDToAssetPath(guidShaderDir);
+            var dstDirPath = AssetDatabase.GUIDToAssetPath(AssetGuid.ShaderDir);
             if (dstDirPath == "")
             {
-                Debug.LogWarning("Cannot find file or directory corresponding to GUID: " + guidShaderDir);
+                Debug.LogWarning("Cannot find file or directory corresponding to GUID: " + AssetGuid.ShaderDir);
                 return;
             }
             if (!Directory.Exists(dstDirPath))
             {
-                Debug.LogWarningFormat("Directory not found: {0} ({1})", dstDirPath, guidShaderDir);
+                Debug.LogWarningFormat("Directory not found: {0} ({1})", dstDirPath, AssetGuid.ShaderDir);
                 return;
             }
 

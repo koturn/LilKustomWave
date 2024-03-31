@@ -22,11 +22,6 @@ namespace lilToon
         private static bool isShowCustomProperties;
 
         /// <summary>
-        /// GUID of shader directory.
-        /// </summary>
-        // TODO: Replace to GUID of your "Shader" directory.
-        public const string GuidShaderDir = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
-        /// <summary>
         /// Name of this custom shader.
         /// </summary>
         private const string ShaderName = "TemplateAll";
@@ -47,7 +42,8 @@ namespace lilToon
             // If not, set isShowRenderMode to false
             //isShowRenderMode = false;
 
-            //LoadCustomLanguage("");  // TODO: Specify GUID of your lang_custom.txt
+            LoadCustomLanguage(AssetGuid.LangCustom);
+
             //customVariable = FindProperty("_CustomVariable", props);
         }
 
@@ -288,15 +284,15 @@ namespace lilToon
                 }
             }
 
-            var shaderDirPath = AssetDatabase.GUIDToAssetPath(GuidShaderDir);
+            var shaderDirPath = AssetDatabase.GUIDToAssetPath(AssetGuid.ShaderDir);
             if (shaderDirPath == "")
             {
-                Debug.LogWarning("Cannot find file or directory corresponding to GUID: " + GuidShaderDir);
+                Debug.LogWarning("Cannot find file or directory corresponding to GUID: " + AssetGuid.ShaderDir);
                 return;
             }
             if (!Directory.Exists(shaderDirPath))
             {
-                Debug.LogWarningFormat("Directory not found: {0} ({1})", shaderDirPath, GuidShaderDir);
+                Debug.LogWarningFormat("Directory not found: {0} ({1})", shaderDirPath, AssetGuid.ShaderDir);
                 return;
             }
             AssetDatabase.ImportAsset(shaderDirPath, ImportAssetOptions.ImportRecursive);
