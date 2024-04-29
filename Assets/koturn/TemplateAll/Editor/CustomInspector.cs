@@ -256,9 +256,11 @@ namespace lilToon
         /// Callback method for menu item which refreshes shader cache and reimport.
         /// </summary>
         [MenuItem("Assets/" + ShaderName + "/Refresh shader cache", false, 2000)]
+#pragma warning disable IDE0052 // Remove unread private members
         private static void RefreshShaderCacheMenu()
+#pragma warning restore IDE0052 // Remove unread private members
         {
-            var result = NativeMethods.Open("Library/ShaderCache.db", out var dbHandle);
+            var result = NativeMethods.Open("Library/ShaderCache.db", out var pDb);
             if (result != 0)
             {
                 Debug.LogErrorFormat("Failed to open Library/ShaderCache.db [{0}]", result);
@@ -267,7 +269,7 @@ namespace lilToon
 
             try
             {
-                result = NativeMethods.Execute(dbHandle, "DELETE FROM shadererrors", IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
+                result = NativeMethods.Execute(pDb, "DELETE FROM shadererrors");
                 if (result != 0)
                 {
                     Debug.LogErrorFormat("SQL failed [{0}]", result);
@@ -276,7 +278,7 @@ namespace lilToon
             }
             finally
             {
-                result = NativeMethods.Close(dbHandle);
+                result = NativeMethods.Close(pDb);
                 if (result != 0)
                 {
                     Debug.LogErrorFormat("Failed to close database [{0}]", result);
@@ -294,6 +296,7 @@ namespace lilToon
                 Debug.LogWarningFormat("Directory not found: {0} ({1})", shaderDirPath, AssetGuid.ShaderDir);
                 return;
             }
+
             AssetDatabase.ImportAsset(shaderDirPath, ImportAssetOptions.ImportRecursive);
         }
 
@@ -496,40 +499,39 @@ namespace lilToon
             /// Open database.
             /// </summary>
             /// <param name="filePath">SQLite3 database file path.</param>
-            /// <param name="db">SQLite db handle.</param>
+            /// <param name="pDb">SQLite db handle.</param>
             /// <returns>Result code.</returns>
             /// <remarks>
             /// <seealso href="https://www.sqlite.org/c3ref/open.html"/>
             /// </remarks>
             [DllImport(LibraryName, EntryPoint = "sqlite3_open", CallingConvention = CallConv)]
-            public static extern int Open(string filename, out IntPtr dbHandle);
+            public static extern int Open(string filePath, out IntPtr pDb);
 
             /// <summary>
             /// Close database.
             /// </summary>
-            /// <param name="filePath">Database filename.</param>
-            /// <param name="db">SQLite db handle.</param>
+            /// <param name="pDb">SQLite db handle.</param>
             /// <returns>Result code.</returns>
             /// <remarks>
             /// <seealso href="https://www.sqlite.org/c3ref/close.html"/>
             /// </remarks>
             [DllImport(LibraryName, EntryPoint = "sqlite3_close", CallingConvention = CallConv)]
-            public static extern int Close(IntPtr db);
+            public static extern int Close(IntPtr pDb);
 
             /// <summary>
             /// Execute specified SQL.
             /// </summary>
-            /// <param name="db">An open database.</param>
+            /// <param name="pDb">SQLite db handle.</param>
             /// <param name="sql">SQL to be evaluated.</param>
-            /// <param name="callback">Callback function.</param>
-            /// <param name="callbackArg">1st argument to callback.</param>
-            /// <param name="pErrMsg">Error msg written here.</param>
+            /// <param name="pCallback">Callback function.</param>
+            /// <param name="pCallbackArg">1st argument to callback.</param>
+            /// <param name="pErrMsg">Error message written here.</param>
             /// <returns>Result code.</returns>
             /// <remarks>
             /// <seealso href="https://www.sqlite.org/c3ref/exec.html"/>
             /// </remarks>
             [DllImport(LibraryName, EntryPoint = "sqlite3_exec", CallingConvention = CallConv)]
-            public static extern int Execute(IntPtr dbHandle, string sql, IntPtr callback, IntPtr callbackArg, IntPtr pErrMsg);
+            public static extern int Execute(IntPtr pDb, string sql, IntPtr pCallback = default(IntPtr), IntPtr pCallbackArg = default(IntPtr), IntPtr pErrMsg = default(IntPtr));
         }
     }
 }
