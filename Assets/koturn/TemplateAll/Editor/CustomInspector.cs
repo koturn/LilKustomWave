@@ -180,15 +180,14 @@ namespace lilToon
         private static bool ValidateConvertMaterialToCustomShaderMenu()
 #pragma warning restore IDE0051 // Remove unused private members
         {
-            var count = 0;
             foreach (var material in Selection.GetFiltered<Material>(SelectionMode.Assets))
             {
                 if (GetCorrespondingCustomShaderName(material.shader.name) != null)
                 {
-                    count++;
+                    return true;
                 }
             }
-            return count > 0;
+            return false;
         }
 
         /// <summary>
@@ -225,15 +224,14 @@ namespace lilToon
         private static bool ValidateConvertMaterialToOriginalShader()
 #pragma warning restore IDE0051 // Remove unused private members
         {
-            var count = 0;
             foreach (var material in Selection.GetFiltered<Material>(SelectionMode.Assets))
             {
                 if (GetCorrespondingOriginalShaderName(material.shader.name) != null)
                 {
-                    count++;
+                    return true;
                 }
             }
-            return count > 0;
+            return false;
         }
 
         /// <summary>
