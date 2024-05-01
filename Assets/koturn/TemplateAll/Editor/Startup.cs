@@ -82,24 +82,27 @@ namespace lilToon
         /// <param name="bufferSize">Buffer size for <see cref="StreamWriter"/>.</param>
         private static void WriteVersionFileBytes(Stream s, int bufferSize = DefaultBufferSize)
         {
-            using (var writer = new StreamWriter(s, Encoding.ASCII, bufferSize, true))
+            using (var writer = new StreamWriter(s, Encoding.ASCII, bufferSize, true)
             {
-                writer.Write("#ifndef LIL_CURRENT_VERSION_INCLUDED\n");
-                writer.Write("#define LIL_CURRENT_VERSION_INCLUDED\n");
-                writer.Write('\n');
-                writer.Write("#define LIL_CURRENT_VERSION_VALUE {0}\n", lilConstants.currentVersionValue);
+                NewLine = "\n"
+            })
+            {
+                writer.WriteLine("#ifndef LIL_CURRENT_VERSION_INCLUDED");
+                writer.WriteLine("#define LIL_CURRENT_VERSION_INCLUDED");
+                writer.WriteLine();
+                writer.WriteLine("#define LIL_CURRENT_VERSION_VALUE {0}", lilConstants.currentVersionValue);
 
                 var match = new Regex(@"^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)").Match(lilConstants.currentVersionName);
                 if (match.Success)
                 {
                     var groups = match.Groups;
-                    writer.Write("#define LIL_CURRENT_VERSION_MAJOR {0}\n", groups[1].Value);
-                    writer.Write("#define LIL_CURRENT_VERSION_MINOR {0}\n", groups[2].Value);
-                    writer.Write("#define LIL_CURRENT_VERSION_PATCH {0}\n", groups[3].Value);
+                    writer.WriteLine("#define LIL_CURRENT_VERSION_MAJOR {0}", groups[1].Value);
+                    writer.WriteLine("#define LIL_CURRENT_VERSION_MINOR {0}", groups[2].Value);
+                    writer.WriteLine("#define LIL_CURRENT_VERSION_PATCH {0}", groups[3].Value);
                 }
 
-                writer.Write('\n');
-                writer.Write("#endif  // LIL_CURRENT_VERSION_INCLUDED\n");
+                writer.WriteLine();
+                writer.WriteLine("#endif  // LIL_CURRENT_VERSION_INCLUDED");
             }
         }
 
