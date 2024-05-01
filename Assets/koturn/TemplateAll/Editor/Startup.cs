@@ -127,7 +127,7 @@ namespace lilToon
             }
 
             var minBufferSize = Math.Min(count, bufferSize);
-            using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read, minBufferSize))
+            using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite, minBufferSize))
             {
                 var buffer = new byte[minBufferSize];
                 int nRead;
