@@ -280,6 +280,14 @@ namespace lilToon
             }
 
             AssetDatabase.ImportAsset(shaderDirPath, ImportAssetOptions.ImportRecursive);
+
+            var lilToonShaderDir = AssetDatabase.GUIDToAssetPath(AssetGuid.LilToonShaderDir);
+            if (lilToonShaderDir == "")
+            {
+                Debug.LogWarningFormat("Shader directory of lilToon not found: {0}", AssetGuid.LilToonShaderDir);
+                return;
+            }
+            AssetDatabase.ImportAsset(lilToonShaderDir, ImportAssetOptions.ImportRecursive);
         }
 
         /// <summary>
