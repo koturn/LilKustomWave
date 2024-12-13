@@ -156,6 +156,14 @@ namespace lilToon
         {
             foreach (var material in Selection.GetFiltered<Material>(SelectionMode.Assets))
             {
+#if UNITY_2022_1_OR_NEWER
+                if (material.parent != null)
+                {
+                    Debug.LogWarningFormat("Ignore {0} because it is Material Variant", AssetDatabase.GetAssetPath(material));
+                    continue;
+                }
+#endif  // UNITY_2022_1_OR_NEWER
+
                 var shader = GetCorrespondingCustomShader(material.shader);
                 if (shader == null)
                 {
@@ -182,6 +190,14 @@ namespace lilToon
         {
             foreach (var material in Selection.GetFiltered<Material>(SelectionMode.Assets))
             {
+#if UNITY_2022_1_OR_NEWER
+                if (material.parent != null)
+                {
+                    Debug.LogWarningFormat("Ignore {0} because it is Material Variant", AssetDatabase.GetAssetPath(material));
+                    continue;
+                }
+#endif  // UNITY_2022_1_OR_NEWER
+
                 if (GetCorrespondingCustomShaderName(material.shader.name) != null)
                 {
                     return true;
@@ -200,6 +216,14 @@ namespace lilToon
         {
             foreach (var material in Selection.GetFiltered<Material>(SelectionMode.Assets))
             {
+#if UNITY_2022_1_OR_NEWER
+                if (material.parent != null)
+                {
+                    Debug.LogWarningFormat("Ignore {0} because it is Material Variant", AssetDatabase.GetAssetPath(material));
+                    continue;
+                }
+#endif  // UNITY_2022_1_OR_NEWER
+
                 var shader = GetCorrespondingOriginalShader(material.shader);
                 if (shader == null)
                 {
@@ -226,6 +250,14 @@ namespace lilToon
         {
             foreach (var material in Selection.GetFiltered<Material>(SelectionMode.Assets))
             {
+#if UNITY_2022_1_OR_NEWER
+                if (material.parent != null)
+                {
+                    Debug.LogWarningFormat("Ignore {0} because it is Material Variant", AssetDatabase.GetAssetPath(material));
+                    continue;
+                }
+#endif  // UNITY_2022_1_OR_NEWER
+
                 if (GetCorrespondingOriginalShaderName(material.shader.name) != null)
                 {
                     return true;
