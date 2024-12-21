@@ -10,7 +10,7 @@ namespace lilToon
     /// <summary>
     /// <see cref="ShaderGUI"/> for the custom shader variations of lilToon.
     /// </summary>
-    public class TemplateAllInspector : lilToonInspector
+    public sealed class TemplateAllInspector : lilToonInspector
     {
         // Custom properties
         //private MaterialProperty customVariable;
